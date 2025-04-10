@@ -28,8 +28,6 @@ const ApplicationNavigator = () => {
   const [firstTimeLoad, setFirstTimeLoad] =  useState(true)
 
   const IsFristTimeLoad = async () =>{
-    const I = await AsyncStorage.removeItem("firstTimeLoad")
-
     const result = await AsyncStorage.getItem("firstTimeLoad")
     console.log("result", result)
     if(result == "true" || result == null ){

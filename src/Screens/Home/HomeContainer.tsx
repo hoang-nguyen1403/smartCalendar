@@ -1,8 +1,16 @@
 import { Home } from "./Home";
 import React, { useState, useEffect } from "react";
 import { useLazyGetUserQuery } from "@/Services";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootScreens } from "..";
+import { RootStackParamList } from "@/Navigation";
 
-export const HomeContainer = () => {
+type MainNavigatorProps = NativeStackScreenProps<
+  RootStackParamList,
+  RootScreens.MAIN
+>;
+
+export const HomeContainer = ({navigation}:MainNavigatorProps) => {
   const [userId, setUserId] = useState("9");
 
   const [fetchOne, { data, isSuccess, isLoading, isFetching, error }] =
@@ -12,5 +20,11 @@ export const HomeContainer = () => {
     fetchOne(userId);
   }, [fetchOne, userId]);
 
-  return <Home data={data} isLoading={isLoading} />;
+
+  const onNavigate = (screen: RootScreens) => {
+    navigation.navigate(screen);
+  };
+
+
+  return <Home data={data} isLoading={isLoading} onNavigate={onNavigate} />;
 };

@@ -35,7 +35,15 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [],
+    "plugins": [
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": true
+        }
+      ],
+      "expo-localization"
+    ],
     "extra": {
       "eas": {
         "projectId": "98ad850c-c89d-4945-8a17-7f7480f73d56"

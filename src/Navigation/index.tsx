@@ -9,9 +9,11 @@ import { RootScreens } from "@/Screens";
 import { OnBoarding1ScreenContainer } from "@/Screens/OnBoarding1";
 import { OnBoarding2ScreenContainer } from "@/Screens/OnBoarding2";
 import { OnBoarding3ScreenContainer } from "@/Screens/OnBoarding3";
+import { LoginContainer } from "@/Screens/Login/LoginContainer"; 
 
 import {useState, useEffect} from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SignInContainer } from "@/Screens/SignIn";
 
 export type RootStackParamList = {
   [RootScreens.MAIN]: undefined;
@@ -19,6 +21,7 @@ export type RootStackParamList = {
   [RootScreens.ONBOARDING1]: undefined;
   [RootScreens.ONBOARDING2]: undefined;
   [RootScreens.ONBOARDING3]: undefined;
+  [RootScreens.LOGIN]: undefined;
 }
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -27,9 +30,9 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 const ApplicationNavigator = () => {
   const [firstTimeLoad, setFirstTimeLoad] =  useState(true)
 
-  const IsFristTimeLoad = async () =>{
+  const getFirstTimeLoadValue = async () =>{
     const result = await AsyncStorage.getItem("firstTimeLoad")
-    console.log("result", result)
+    console.log("firstTimeLoad ----", result);
     if(result == "true" || result == null ){
       setFirstTimeLoad(true)
     }else{
@@ -38,14 +41,8 @@ const ApplicationNavigator = () => {
 
   }
   useEffect(()=>{
-    IsFristTimeLoad()
-    
+    getFirstTimeLoadValue()
   }, [])
-
-  const getOnboarding= () =>{
-    return{}
-  }
-
   return (
     <NavigationContainer>
       <StatusBar />
@@ -72,14 +69,33 @@ const ApplicationNavigator = () => {
           component={MainNavigator}
           options={{}}
         />
-      </RootStack.Navigator> :
+        <RootStack.Screen
+          name={RootScreens.LOGIN}
+          component={LoginContainer}
+        />
+        <RootStack.Screen
+          name={RootScreens.SIGNIN}
+          component={SignInContainer}
+        />
+      </RootStack.Navigator>
+      :
+
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen
-        name={RootScreens.MAIN}
-        component={MainNavigator}
-        options={{}}
-      />
-    </RootStack.Navigator>
+        <RootStack.Screen
+          name={RootScreens.MAIN}
+          component={MainNavigator}
+          options={{}}
+        />
+        <RootStack.Screen
+          name={RootScreens.LOGIN}
+          component={LoginContainer}
+        />
+        <RootStack.Screen
+          name={RootScreens.SIGNIN}
+          component={SignInContainer}
+        />
+      </RootStack.Navigator>
+      
       } 
       
     </NavigationContainer>
